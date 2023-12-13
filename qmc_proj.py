@@ -288,7 +288,7 @@ def solve_main_weighted(n, edges):
 if __name__=='__main__':
 
 
-    # Example: n-ring with uniform weights 1.
+    # Example: ring-n with uniform weights 1.
     n = 4
     edges = [(i, i+1, 1) for i in range(n-1)] + [(0,n-1,1)]
     graph_name = f'ring-{n}'
