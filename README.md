@@ -7,4 +7,4 @@ Projector SDP Hierarchy for Quantum MaxCut: https://arxiv.org/abs/2307.15688
 
 ## Instructions
 1. qmc_proj.py contains all the core functions. One example (ring-n) is included in the end, and to test it, simply do `python qmc_proj.py`.
-2. qmc_proj_main.py shows how to run qmc_proj tasks in batches, which is particularly useful when running tasks on clusters. 
+2. qmc_proj_main.py shows one way to run qmc_proj tasks in batches, which is particularly useful when running tasks on clusters. 
