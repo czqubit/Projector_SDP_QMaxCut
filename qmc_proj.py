@@ -116,69 +116,6 @@ def proj_mult(a: Tuple, b: Tuple) -> Tuple:
             coeff, prod, flag = (1/4, 1/4, -1/4), (a, b, tuple(sorted(tuple(u)))), 1
 
     return coeff, prod, flag
-    
-def get_data_main(n, edges):
-    r"""
-    Get all the data necessary for mosek fusion modeling in the primal formulation:
-            max  sum_{(i,j)\in E} h_{ij}
-            s.t. M(h_{ij}) >= 0,
-    where M is the moment matrix, and '>=' stands for positive semidefiniteness. 
-
-    Matrix indexing is column based. 
-
-    Edges are not weighted, i.e., edges = [(i_1,j_1),...,(i_s,j_s)]. 
-    
-    """
-
-    # Get all the h tuples (i,j), i < j and (0,0)
-    htuples = [(0,0)] + list(it.combinations(range(n),2))
-    n_htuples = len(htuples)
-    # Dictionary storing the positions of the constraint variables, i.e., all the h_{ij}'s. 
-    var_dict_constr_pos = {h: (i, 0) for i, h in enumerate(htuples)}
-    # Dictionary storing the positions of the free variables, i.e., all the h_{ij}h_{kl}, 
-    # where there's no overlap between {i,j} and {k, l}.
-    var_dict_free_pos = {}
-    # A stores all sparse matrices that specify the equality constraints in moment matrix M such that Tr(M A_i) = 0
-    A = {}
-    for i in range(n_htuples):
-        for j in range(i, n_htuples):
-            a, b = htuples[i], htuples[j]
-            if i == 0 and j >= 1:
-                A[(a,b)] = [[], [], []]
-                A[(a,b)][0] = [j, j]
-                A[(a,b)][1] = [i, j]
-                A[(a,b)][2] = [1, -1]
-            elif i > 0 and j > i: 
-                a_set = set(a)
-                b_set = set(b)
-                c = a_set.intersection(b_set)
-                u = a_set.union(b_set)
-                if len(c) == 0:
-                    var_dict_free_pos[(a,b)] = (j,i)
-                elif len(c) == 1:
-                    # get the single element from set c
-                    (e,) = c
-                    u.remove(e)
-                    pos_a = var_dict_constr_pos[a]
-                    pos_b = var_dict_constr_pos[b]
-                    pos_c = var_dict_constr_pos[tuple(sorted(tuple(u)))]
-                    A[(a,b)] = [[], [], []]
-                    A[(a,b)][0] = [j, pos_a[0], pos_b[0], pos_c[0]]
-                    A[(a,b)][1].extend([i, pos_a[1], pos_b[1], pos_c[1]])
-                    A[(a,b)][2].extend([-1, 1/4, 1/4, -1/4])
-
-    # Obtain matrix C in sparse format
-    C = [[], [], []]
-    for i, j in edges:
-        pos = var_dict_constr_pos[(i,j)]
-        C[0].append(pos[0])
-        C[1].append(pos[1])
-        C[2].append(1)
-
-    # Dimension of moment matrix M
-    X_dim = int(n * (n-1) / 2 + 1)
-
-    return A, C, X_dim, var_dict_constr_pos, var_dict_free_pos
 
 def get_data_weighted(n, edges):
     r"""
@@ -193,7 +130,7 @@ def get_data_weighted(n, edges):
 
     """
 
-    # Get all the h tuples (i,j), i < j and (0,0)
+    # Get all the h tuples (i,j), i < j, and (0,0)
     htuples = [(0,0)] + list(it.combinations(range(n),2))
     n_htuples = len(htuples)
     # Dictionary storing the positions of the constraint variables, i.e., all the h_{ij}'s. 
