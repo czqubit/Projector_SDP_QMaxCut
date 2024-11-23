@@ -226,12 +226,20 @@ if __name__=='__main__':
 
 
     # Example: ring-n with uniform weights 1.
-    n = 4
-    edges = [(i, i+1, 1) for i in range(n-1)] + [(0,n-1,1)]
-    graph_name = f'ring-{n}'
-    print(edges)
+    # n = 4
+    # edges = [(i, i+1, 1) for i in range(n-1)] + [(0,n-1,1)]
+    # graph_name = f'ring-{n}'
+    # print(edges)
 
-    dir_result = './ring/'
+    # dir_result = './ring/'
+
+    # Jun's graphs
+    n = 14
+    graph_name = f'DoubleCycle_N{n}'
+    graph_path = f'./graphdata/{graph_name}.dat'
+    edges = np.loadtxt(graph_path, dtype=int).tolist()
+    edges = [tuple(sorted(e[0:2]) + [1]) for e in edges]
+    dir_result = f'./{graph_name}/'
     # Make file path if not existed
     Path(dir_result).mkdir(parents=True, exist_ok=True)
 
