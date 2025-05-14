@@ -1,5 +1,5 @@
 # Projector SDP Hierarchy for Quantum MaxCut
-Projector SDP Hierarchy for Quantum MaxCut: Jun Takahashi, Chaithanya Rayudu, Cunlu Zhou, Robbie King, Kevin Thompson, Ojas Parekh, *[An SU(2)-symmetric Semidefinite Programming Hierarchy for Quantum Max Cut](https://arxiv.org/abs/2307.15688)*
+Projector SDP Hierarchy for Quantum MaxCut: Jun Takahashi, Chaithanya Rayudu, Cunlu Zhou, Robbie King, Kevin Thompson, Ojas Parekh, *[An SU(2)-symmetric Semidefinite Programming Hierarchy for Quantum Max Cut](https://arxiv.org/abs/2307.15688)*, arXiv:2307.15688, 2023. 
 
 
 ## Prerequisites
